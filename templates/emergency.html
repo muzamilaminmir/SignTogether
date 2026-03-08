@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Emergency Mode - SignTogether{% endblock %}
+
+{% block extra_css %}
+<style>
+    .emergency-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .emergency-btn {
+        padding: 3rem 2rem;
+        border-radius: 24px;
+        border: 2px solid #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .emergency-btn:hover {
+        background: #ef4444;
+        color: white;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+    }
+
+    .emergency-btn i {
+        font-size: 3rem;
+    }
+
+    .emergency-header {
+        background: #ef4444;
+        color: white;
+        padding: 2rem;
+        border-radius: 24px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function triggerEmergency(message) {
+        fetch('/emergency', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.status);
+                // Visual feedback
+                const btn = event.currentTarget;
+                const originalText = btn.innerHTML;
+                btn.style.background = "#22c55e";
+                btn.style.borderColor = "#22c55e";
+                btn.innerHTML = '<i class="ri-check-line"></i> Spoken';
+                setTimeout(() => {
+                    btn.style.background = "";
+                    btn.style.borderColor = "";
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4">
+    <div class="emergency-header animate-fade-in">
+        <i class="ri-alarm-warning-fill" style="font-size: 3rem;"></i>
+        <h1>Emergency Mode</h1>
+        <p>Quick access to critical communication. Click any button to speak the phrase immediately.</p>
+    </div>
+
+    <div class="emergency-grid">
+        <button class="emergency-btn animate-fade-in delay-100" onclick="triggerEmergency('I need help immediately')">
+            <i class="ri-hand-heart-fill"></i>
+            I Need Help
+        </button>
+        <button class="emergency-btn animate-fade-in delay-200" onclick="triggerEmergency('Please call a doctor')">
+            <i class="ri-first-aid-kit-fill"></i>
+            Call a Doctor
+        </button>
+        <button class="emergency-btn animate-fade-in delay-300" onclick="triggerEmergency('I am lost, please help me')">
+            <i class="ri-map-pin-user-fill"></i>
+            I Am Lost
+        </button>
+        <button class="emergency-btn animate-fade-in delay-400"
+            onclick="triggerEmergency('I have a medical emergency')">
+            <i class="ri-hospital-fill"></i>
+            Medical Emergency
+        </button>
+        <button class="emergency-btn animate-fade-in delay-500" onclick="triggerEmergency('Please call my family')">
+            <i class="ri-parent-fill"></i>
+            Call Family
+        </button>
+        <button class="emergency-btn animate-fade-in delay-600"
+            onclick="triggerEmergency('Where is the nearest police station')">
+            <i class="ri-shield-user-fill"></i>
+            Police Station
+        </button>
+    </div>
+
+    <div class="text-center mt-4 animate-fade-in delay-700">
+        <a href="/model2" class="btn btn-outline">
+            <i class="ri-arrow-left-line"></i> Back to Interpreter
+        </a>
+    </div>
+</section>
+{% endblock %}

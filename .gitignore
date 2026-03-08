@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Android
+.gradle/
+local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+*.hprof
+*.log
+*.txt
+.DS_Store
+.idea/
+.gradle/
+build/
+app/build/
+capture/
+memory.prof
+
+# Android Studio
+*.iml
+.navigation/
+captures/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# System
+Thumbs.db
+Desktop.ini
+
+# Project Specific
+*.h5
+!model.h5
+!sign_model.h5
+# (Uncomment the above ! lines if you want to track specific models, otherwise models are usually large and ignored)
+
+# Sensitive Assets
+static/asset/The Rise.webp
+static/asset/developer.jpg
+static/asset/digital-menu.gif
+static/asset/founder.png
+static/asset/logregpagegif.jpg

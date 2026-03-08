@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/highlight"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_lock_idle_alarm"
+            android:tint="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emergency Mode"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quick access to critical communication. Click any button to speak the phrase immediately."
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Grid Container -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:padding="16dp"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true">
+
+        <!-- Button 1: I Need Help -->
+        <Button
+            android:id="@+id/btnHelp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="I Need Help\n(112)"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/highlight"
+            android:textSize="16sp"
+            android:drawableTop="@android:drawable/ic_menu_help"
+            android:drawableTint="@color/highlight"
+            android:padding="16dp"/>
+
+        <!-- Button 2: Call a Doctor -->
+        <Button
+            android:id="@+id/btnDoctor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="Call a Doctor\n(108)"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/secondary"
+            android:textSize="16sp"
+            android:drawableTop="@android:drawable/ic_menu_call"
+            android:drawableTint="@color/secondary"
+            android:padding="16dp"/>
+
+        <!-- Button 3: I Am Lost -->
+        <Button
+            android:id="@+id/btnLost"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="I Am Lost\n(112)"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/highlight"
+            android:textSize="16sp"
+            android:drawableTop="@android:drawable/ic_menu_mylocation"
+            android:drawableTint="@color/highlight"
+            android:padding="16dp"/>
+
+        <!-- Button 4: Medical Emergency -->
+        <Button
+            android:id="@+id/btnMedical"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="Medical Emergency\n(108)"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/highlight"
+            android:textSize="14sp"
+            android:drawableTop="@android:drawable/ic_menu_add"
+            android:drawableTint="@color/highlight"
+            android:padding="16dp"/>
+
+        <!-- Button 5: Call Family -->
+        <Button
+            android:id="@+id/btnFamily"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="Call Family"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/secondary"
+            android:textSize="16sp"
+            android:drawableTop="@android:drawable/ic_menu_share"
+            android:drawableTint="@color/secondary"
+            android:padding="16dp"/>
+
+        <!-- Button 6: Police Station -->
+        <Button
+            android:id="@+id/btnPolice"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="8dp"
+            android:text="Police Station\n(112)"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/secondary"
+            android:textSize="16sp"
+            android:drawableTop="@android:drawable/ic_secure"
+            android:drawableTint="@color/secondary"
+            android:padding="16dp"/>
+
+    </GridLayout>
+
+</LinearLayout>

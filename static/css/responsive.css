@@ -1,0 +1,88 @@
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    /* Typography */
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+    }
+
+    .container {
+        padding: 0 1.25rem;
+    }
+
+    /* Header & Nav */
+    header {
+        position: relative; /* Push content down */
+        padding: 0.5rem 0;
+        backdrop-filter: none;
+        background: var(--bg-color);
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .logo {
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.8rem;
+        text-align: center;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 0.5rem;
+        width: 100%;
+    }
+
+    .nav-links .btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 40px 0 60px; /* Reduced top padding since header is relative */
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    /* Sections */
+    .features, .demo-section {
+        padding: 60px 0;
+    }
+
+    .grid {
+        grid-template-columns: 1fr; /* Single column */
+        gap: 1.5rem;
+    }
+
+    /* Fix inline flex styles from HTML */
+    section > div[style*="display: flex"] {
+        gap: 2rem !important;
+    }
+    
+    /* CTA */
+    section.container.text-center.mt-4.mb-4 > div {
+        padding: 2rem !important;
+    }
+}

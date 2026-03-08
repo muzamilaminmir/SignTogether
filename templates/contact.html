@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - SignTogether{% endblock %}
+
+{% block extra_js %}
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyDzdfP1QpXlecw-mk38G6E7Vkb-pfJr540",
+        authDomain: "web-development-project-site.firebaseapp.com",
+        projectId: "web-development-project-site",
+        storageBucket: "web-development-project-site.appspot.com",
+        messagingSenderId: "465762016992",
+        appId: "1:465762016992:web:45ca218c3b0ff2062d7a85",
+        measurementId: "G-CRBT4ZY4JQ"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const contactRef = db.collection("Speech-to-Sign-Contact");
+
+    // Toast function
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = `toast ${type} visible`;
+
+        setTimeout(() => {
+            toast.classList.remove('visible');
+        }, 3000);
+    }
+
+    // Form validation and submission
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Clear previous errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Get form values
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Validation
+        let isValid = true;
+
+        if (!name) {
+            document.getElementById('nameError').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('emailError').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!message) {
+            document.getElementById('messageError').style.display = 'block';
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        try {
+            // Add to Firestore
+            await contactRef.add({
+                name: name,
+                email: email,
+                message: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            // Show success toast
+            showToast('Message sent successfully!', 'success');
+
+            // Reset form
+            document.getElementById('contactForm').reset();
+
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            showToast('Failed to send message. Please try again.', 'error');
+        }
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 30px;
+        border-radius: 50px;
+        color: white;
+        font-weight: bold;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .toast.visible {
+        opacity: 1;
+    }
+
+    .toast.success {
+        background: #10b981;
+        /* Emerald 500 */
+    }
+
+    .toast.error {
+        background: #ef4444;
+        /* Red 500 */
+    }
+
+    .error-message {
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4">
+    <div class="text-center mb-2">
+        <h1 class="animate-fade-in">Get in Touch</h1>
+        <p class="animate-fade-in delay-100">We’d love to hear from you! Reach out with any questions or feedback.</p>
+    </div>
+
+    <div class="grid"
+        style="grid-template-columns: 1fr 1fr; gap: 0; overflow: hidden; border-radius: 24px; box-shadow: var(--shadow-lg); max-width: 1000px; margin: 0 auto;">
+        <div class="animate-fade-in delay-200"
+            style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 3rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
+            <h2 style="color: white;">Contact Us</h2>
+            <p style="color: rgba(255,255,255,0.9);">Have a question? We're here to help.</p>
+            <img src="{{ url_for('static', filename='asset/contactusgif.gif') }}" alt="Contact"
+                style="width: 80%; max-width: 300px; border-radius: 16px; margin-top: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        </div>
+
+        <div class="card animate-fade-in delay-300" style="border-radius: 0; border: none; padding: 3rem;">
+            <h2 style="color: var(--text-color);">Send a Message</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Your Name">
+                    <p class="error-message" id="nameError">Please enter your name</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Your Email">
+                    <p class="error-message" id="emailError">Please enter a valid email</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" class="form-control" rows="5" placeholder="Your Message"></textarea>
+                    <p class="error-message" id="messageError">Message cannot be empty</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast" class="toast"></div>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Select Character - SignTogether{% endblock %}
+
+{% block extra_js %}
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script>
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyByIQWS4VhN_GMhGPy-o8Mp3HHZLXKAU_k",
+    authDomain: "web-development-project-site.firebaseapp.com",
+    projectId: "web-development-project-site",
+    storageBucket: "web-development-project-site.appspot.com",
+    messagingSenderId: "465762016992",
+    appId: "1:465762016992:web:7980bfae1e32186d2d7a85",
+    measurementId: "G-XSCHS71RT4"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // Authentication check
+  auth.onAuthStateChanged((user) => {
+    if (!user) {
+      // User not logged in - redirect to register page
+      window.location.href = '/register';
+    }
+    // User is logged in - no action needed
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4 text-center">
+  <h1 class="animate-fade-in">Choose Your Avatar</h1>
+  <p class="animate-fade-in delay-100">Select an animation style to continue with Speech to Sign conversion.</p>
+
+  <div class="grid" style="justify-content: center; max-width: 400px; margin: 3rem auto;">
+    <div class="card animate-fade-in delay-200" style="cursor: pointer; text-align: center;"
+      onclick="window.location.href='/model1'">
+      <div style="overflow: hidden; border-radius: 12px; margin-bottom: 1rem;">
+        <img src="/static/asset/Mod2.png" alt="Character 1"
+          style="width: 100%; height: auto; transition: transform 0.3s ease;">
+      </div>
+      <h3>Realistic Avatar</h3>
+      <p>High fidelity sign language animation.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

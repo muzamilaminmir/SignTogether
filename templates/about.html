@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - SignTogether{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4">
+  <div class="text-center mb-2">
+    <h1 class="animate-fade-in">About Us</h1>
+    <p class="animate-fade-in delay-100" style="max-width: 800px; margin: 0 auto;">
+      Bridging the communication gap between spoken language and sign language through innovation.
+    </p>
+  </div>
+
+  <div class="card animate-fade-in delay-200" style="margin-bottom: 3rem;">
+    <h2>About the Project</h2>
+    <p>
+      Speech to Sign Animation Converter is an innovative technology that bridges the communication gap between spoken
+      language and sign language. Using advanced AI and real-time processing, our tool converts speech into accurate and
+      fluid sign language animations, making communication more accessible for the deaf and hard-of-hearing community.
+    </p>
+
+    <h3 class="mt-1">Why We Created This</h3>
+    <p>
+      Millions of people around the world face communication barriers due to hearing impairments. Traditional sign
+      language interpretation is not always available, creating a challenge in workplaces, schools, and public settings.
+      We recognized this problem and wanted to create a smart, <strong>AI-driven solution</strong> that allows for
+      seamless interaction between the hearing and non-hearing communities.
+    </p>
+
+    <h3 class="mt-1">Who We Are</h3>
+    <p>
+      We are a team of developers, designers, and accessibility advocates passionate about <strong>bridging the
+        communication divide</strong> through technology. Our goal is to make sign language translation easy, intuitive,
+      and accessible to everyone, empowering people with the ability to connect without limitations.
+    </p>
+  </div>
+
+  <div class="grid mb-2">
+    <div class="card animate-fade-in delay-300 text-center">
+      <img src="{{ url_for('static', filename='asset/mission.png') }}" alt="Mission"
+        style="width: 64px; height: 64px; margin-bottom: 1rem;">
+      <h3>Our Mission</h3>
+      <p>To provide <strong>real-time, AI-driven sign language translation</strong> that enables effective communication
+        for individuals with hearing impairments, making the world a more inclusive place.</p>
+    </div>
+    <div class="card animate-fade-in delay-300 text-center">
+      <img src="{{ url_for('static', filename='asset/vision.png') }}" alt="Vision"
+        style="width: 64px; height: 64px; margin-bottom: 1rem;">
+      <h3>Our Vision</h3>
+      <p>We envision a future where <strong>speech-to-sign technology</strong> is widely adopted in schools, businesses,
+        and public spaces, allowing for universal accessibility and seamless communication.</p>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

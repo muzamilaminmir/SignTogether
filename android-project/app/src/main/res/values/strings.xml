@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">SignTogether</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Hindi</item>
+        <item>Spanish</item>
+    </string-array>
+    <string-array name="gender_array">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="blood_group_array">
+        <item>Select Blood Group</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
+    <string name="app_version">Version 1.0.0</string>
+    <string name="mission_title">Our Mission</string>
+    <string name="mission_text">SignTogether bridges communication gaps by providing instant translation between speech and sign language, empowering deaf and speech-impaired users with accessible, inclusive technology.</string>
+    <string name="purpose_title">Our Purpose</string>
+    <string name="purpose_text">We believe everyone deserves to communicate freely and safely. Our emergency contact feature ensures quick assistance when it matters most.</string>
+    <string name="team_unity_title">Team Unity</string>
+    <string name="team_unity_text">This application is built by Team Unity to enable inclusive and emergency communication for deaf and speech-impaired users. Together, we\'re making the world more accessible.</string>
+    <!-- Main Activity Cards -->
+    <string name="title_speech_to_sign">Speech to Sign\nLanguage</string>
+    <string name="desc_speech_to_sign">Convert speech to sign</string>
+    <string name="title_sign_to_speech">Sign Language to\nSpeech</string>
+    <string name="desc_sign_to_speech">Translate signs to speech</string>
+    <string name="title_emergency">Emergency Contact</string>
+    <string name="desc_emergency">Quick emergency access</string>
+    <string name="title_learn">Learn Sign Language</string>
+    <string name="desc_learn">Interactive lessons</string>
+
+    <!-- Native Mode UI -->
+    <string name="status_ready_to_sign">Ready to Sign</string>
+    <string name="status_waiting">Waiting...</string>
+    <string name="status_listening">Listening...</string>
+    <string name="status_signing">Signing: %1$s</string>
+    <string name="status_no_signs">No signs found.</string>
+    <string name="status_confidence">Confidence: %1$s</string>
+    <string name="btn_switch_cam">Switch Cam</string>
+    <string name="robot_idle">ROBOT IDLE</string>
+    <string name="robot_ready">I\'m ready to help!</string>
+    <string name="hint_type_robot">Type to robot...</string>
+    <string name="btn_send">SEND</string>
+    <string name="btn_speak">SPEAK</string>
+    <string name="sentence_captured">Sentence captured: %1$s</string>
+</resources>

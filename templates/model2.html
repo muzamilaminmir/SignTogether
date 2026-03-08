@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+
+{% block title %}Sign to Speech - SignTogether{% endblock %}
+
+{% block extra_css %}
+<style>
+    .robot-panel {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        box-shadow: var(--shadow-lg);
+        transition: border-color 0.3s ease;
+    }
+
+    .robot-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        color: white;
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        transition: var(--transition);
+    }
+
+    .robot-state-tag {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .robot-bubble {
+        background: rgba(15, 23, 42, 0.5);
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        width: 100%;
+        text-align: center;
+    }
+
+    .robot-bubble::after {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid rgba(15, 23, 42, 0.5);
+    }
+
+    .confidence-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+    }
+
+    .confidence-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
+
+    .emergency-btn {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 12px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+    .emergency-btn:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        color: white;
+    }
+
+    @media (max-width: 992px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyByIQWS4VhN_GMhGPy-o8Mp3HHZLXKAU_k",
+        authDomain: "web-development-project-site.firebaseapp.com",
+        projectId: "web-development-project-site",
+        storageBucket: "web-development-project-site.appspot.com",
+        messagingSenderId: "465762016992",
+        appId: "1:465762016992:web:7980bfae1e32186d2d7a85",
+        measurementId: "G-XSCHS71RT4"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged((user) => {
+        if (!user) window.location.href = '/register';
+    });
+
+    let isRunning = true;
+    const videoElement = document.createElement('video');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const displayImage = document.getElementById("video-box");
+
+    // Initialize Camera
+    async function initCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: 'user',
+                    width: { ideal: 640 },
+                    height: { ideal: 480 }
+                }
+            });
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            videoElement.onloadedmetadata = () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                processFrame();
+            };
+        } catch (err) {
+            console.error("Error accessing camera:", err);
+            alert("Could not access camera. Please ensure you have granted permission.");
+        }
+    }
+
+    async function processFrame() {
+        if (!isRunning) {
+            setTimeout(processFrame, 500);
+            return;
+        }
+
+        // Draw video frame to canvas
+        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        // Convert to base64
+        const imageData = canvas.toDataURL('image/jpeg', 0.7); // 0.7 quality for speed
+
+        try {
+            const response = await fetch('/process_frame', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData })
+            });
+
+            const data = await response.json();
+
+            if (data.image) {
+                displayImage.src = data.image;
+            }
+
+            if (data.status) {
+                updateUI(data.status);
+            }
+
+        } catch (err) {
+            console.error("Error processing frame:", err);
+        }
+
+        // Schedule next frame
+        // Adjust delay to control framerate (e.g., 100ms = 10fps)
+        setTimeout(processFrame, 100);
+    }
+
+    function updateUI(data) {
+        // Update Text
+        document.getElementById("detected-sign").textContent = data.detected_text || "---";
+        document.getElementById("full-sentence").textContent = data.full_sentence || "Waiting for signs...";
+
+        // Update Confidence
+        document.getElementById("confidence-bar").style.width = data.confidence + "%";
+        document.getElementById("confidence-text").textContent = data.confidence + "% Confidence";
+
+        // Update Robot
+        const robotAvatar = document.getElementById("robot-avatar");
+        const robotState = document.getElementById("robot-state");
+        const robotMessage = document.getElementById("robot-message");
+        const robotPanel = document.querySelector(".robot-panel");
+
+        robotState.textContent = data.robot_state;
+        robotState.style.background = data.robot_color + "33"; // 20% opacity
+        robotState.style.color = data.robot_color;
+        robotAvatar.style.color = "white";
+        robotAvatar.style.background = `linear-gradient(135deg, ${data.robot_color}, var(--secondary-color))`;
+        robotPanel.style.borderColor = data.robot_color;
+        robotMessage.textContent = `"${data.robot_message}"`;
+        robotAvatar.innerHTML = `<img src="${data.robot_image}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+
+        // Special handling for REPLYING state
+        if (data.robot_state === "REPLYING") {
+            robotMessage.style.fontWeight = "bold";
+            robotMessage.style.color = data.robot_color;
+            robotMessage.parentElement.style.transform = "scale(1.05)";
+            robotMessage.parentElement.style.transition = "all 0.3s ease";
+        } else {
+            robotMessage.style.fontWeight = "normal";
+            robotMessage.style.color = "inherit";
+            robotMessage.parentElement.style.transform = "scale(1)";
+        }
+
+        // Update Alternatives
+        const altContainer = document.getElementById("alternatives");
+        altContainer.innerHTML = "";
+        if (data.top_predictions && data.top_predictions.length > 1) {
+            data.top_predictions.slice(1).forEach(alt => {
+                const span = document.createElement("span");
+                span.className = "badge bg-secondary";
+                span.style.marginRight = "5px";
+                span.textContent = alt;
+                altContainer.appendChild(span);
+            });
+        } else {
+            altContainer.innerHTML = '<span class="text-muted small">No alternatives</span>';
+        }
+    }
+
+    function speakText() {
+        fetch('/speak').then(r => r.json()).then(d => console.log("Spoken"));
+    }
+
+    function stopDetection() {
+        isRunning = false;
+        fetch('/stop').then(() => {
+            document.getElementById("video-box").src = "{{ url_for('static', filename='/asset/nicetomeet.gif') }}";
+            document.getElementById("robot-state").textContent = "OFFLINE";
+            document.getElementById("robot-state").style.background = "rgba(148, 163, 184, 0.2)";
+            document.getElementById("robot-state").style.color = "#94a3b8";
+        });
+    }
+
+    function restartDetection() {
+        isRunning = true;
+        fetch('/restart').then(() => {
+            // No need to change src here, the loop will update it
+        });
+    }
+
+    // Start camera on load
+    window.addEventListener('load', initCamera);</script>
+{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4">
+    <div class="text-center">
+        <h1 class="animate-fade-in">Sign to Speech Interpreter</h1>
+        <p class="animate-fade-in delay-100">Real-time gesture recognition with Virtual Robot Assistant.</p>
+    </div>
+
+    <div class="main-grid">
+        <!-- Left: Camera Feed -->
+        <div class="card animate-fade-in delay-200" style="padding: 1.5rem;">
+            <div
+                style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg); margin-bottom: 1.5rem;">
+                <img id="video-box" src="{{ url_for('static', filename='asset/nicetomeet.gif') }}" alt="Webcam Feed"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div
+                    style="padding: 1rem; background: rgba(15, 23, 42, 0.3); border-radius: 12px; border: 1px solid var(--border-color);">
+                    <span
+                        style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Current
+                        Sign</span>
+                    <span id="detected-sign"
+                        style="font-size: 2rem; font-weight: bold; color: var(--secondary-color);">---</span>
+                    <div id="alternatives" style="margin-top: 0.5rem;"></div>
+                </div>
+                <div
+                    style="padding: 1rem; background: rgba(15, 23, 42, 0.3); border-radius: 12px; border: 1px solid var(--border-color);">
+                    <span
+                        style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Recognition
+                        Accuracy</span>
+                    <span id="confidence-text" style="font-size: 1.2rem; font-weight: bold;">0% Confidence</span>
+                    <div class="confidence-container">
+                        <div id="confidence-bar" class="confidence-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="full-sentence"
+                style="font-size: 1.2rem; min-height: 80px; padding: 1.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 12px; border: 1px solid var(--primary-color); margin-bottom: 1.5rem; line-height: 1.6;">
+                Waiting for signs...
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button onclick="speakText()" class="btn btn-primary" style="flex: 1;">
+                    <i class="ri-volume-up-fill"></i> Speak Sentence
+                </button>
+                <button onclick="stopDetection()" class="btn btn-outline"
+                    style="border-color: #ef4444; color: #ef4444;">
+                    <i class="ri-stop-circle-fill"></i> Stop
+                </button>
+                <button onclick="restartDetection()" class="btn btn-outline"
+                    style="border-color: #22c55e; color: #22c55e;">
+                    <i class="ri-refresh-line"></i> Restart
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Robot Assistant -->
+        <div class="animate-fade-in delay-300">
+            <div class="robot-panel">
+                <h3 style="margin: 0;">Virtual Interpreter</h3>
+                <div id="robot-avatar" class="robot-avatar">
+                    <i class="ri-robot-line"></i>
+                </div>
+                <div id="robot-state" class="robot-state-tag">IDLE</div>
+
+                <div class="robot-bubble">
+                    <p id="robot-message" style="margin: 0; font-style: italic; font-size: 0.9rem;">"I'm ready when you
+                        are!"</p>
+                </div>
+
+                <div
+                    style="width: 100%; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                    <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+                        The robot monitors your gestures and translates them into spoken words in real-time.
+                    </p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+                    <a href="/emergency" class="emergency-btn">
+                        <i class="ri-alarm-warning-fill"></i> EMERGENCY MODE
+                    </a>
+                    <a href="/learn" class="btn btn-outline"
+                        style="width: 100%; text-align: center; border-color: var(--secondary-color); color: var(--secondary-color);">
+                        <i class="ri-book-open-line"></i> Learn Signs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

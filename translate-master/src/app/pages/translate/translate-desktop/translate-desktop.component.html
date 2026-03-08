@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <app-announcement-banner />
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/about" queryParamsHandling="preserve" color="primary" shape="round" fill="solid">
+        {{ 'landing.about.title' | transloco }}
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <app-logo [text]="'translate.logo' | transloco" />
+    </ion-title>
+    <ion-buttons slot="secondary">
+      @for (page of pages; track page.key) {
+        <ion-button [routerLink]="page.route" queryParamsHandling="preserve" fill="solid" color="light" shape="round">
+          {{ 'landing.' + page.key + '.title' | transloco }}
+        </ion-button>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div id="input-mode-group">
+      @if (spokenToSigned) {
+        <app-translate-input-button mode="text" icon="language" />
+      } @else {
+        <app-translate-input-button mode="webcam" icon="videocam" />
+        <app-translate-input-button mode="upload" icon="cloud-upload" />
+      }
+      <div class="disclaimer">
+        <ion-icon name="information-circle-outline" class="disclaimer-icon"></ion-icon>
+        <span class="disclaimer-text">
+          By using the sign Translate tool, you agree to our
+          <a href="/legal/privacy" target="_blank" class="disclaimer-link">Privacy Policy</a>
+          and
+          <a href="/legal/terms" target="_blank" class="disclaimer-link">Terms of Use</a>.
+        </span>
+      </div>
+    </div>
+
+    <app-drop-pose-file>
+      <div id="translation-card">
+        <app-language-selectors />
+
+        <div id="content">
+          @if (spokenToSigned) {
+            <!-- Spoken to sign requires a text input and video output -->
+            <app-spoken-to-signed />
+          } @else {
+            <!-- Sign to spoken requires a video input and text output -->
+            <app-signed-to-spoken />
+          }
+        </div>
+      </div>
+    </app-drop-pose-file>
+
+    <app-send-feedback />
+  </div>
+  <app-landing-footer />
+</ion-content>

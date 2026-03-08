@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container hero-content">
+    <h1 class="animate-fade-in">Breaking Barriers with<br>Sign Language AI</h1>
+    <p class="mt-1 animate-fade-in delay-100" style="font-size: 1.25rem;">
+      Experience real-time two-way communication. Convert speech to sign language animations and translate sign language
+      to text and speech instantly.
+    </p>
+    <div class="hero-buttons animate-fade-in delay-200">
+      <a href="/converter" class="btn btn-primary">Try Speech to Sign</a>
+      <a href="/model2" class="btn btn-outline">Try Sign to Speech</a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+  <div class="container">
+    <div class="text-center mb-2">
+      <h2 class="section-title">Why Choose SignSync?</h2>
+      <p>Our advanced technology makes communication seamless and accessible.</p>
+    </div>
+
+    <div class="grid">
+      <div class="glass-card animate-fade-in delay-100">
+        <i class="ri-voiceprint-fill card-icon"></i>
+        <h3>Speech to Sign</h3>
+        <p>Convert spoken words into fluid, accurate sign language animations in real-time using our advanced 3D avatar
+          system.</p>
+      </div>
+      <div class="glass-card animate-fade-in delay-200">
+        <i class="ri-camera-lens-fill card-icon"></i>
+        <h3>Sign to Speech</h3>
+        <p>Use your camera to translate sign language gestures into text and spoken voice instantly.</p>
+      </div>
+      <div class="glass-card animate-fade-in delay-300">
+        <i class="ri-brain-line card-icon"></i>
+        <h3>AI Powered</h3>
+        <p>Leveraging state-of-the-art machine learning models for high accuracy and contextual understanding.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo/Visual Section -->
+<section class="container mt-2 mb-2">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4rem;">
+    <div style="flex: 1; min-width: 300px;">
+      <img src="{{ url_for('static', filename='asset/nicetomeet.gif') }}" alt="Demo"
+        style="width: 100%; border-radius: 16px; box-shadow: var(--shadow-lg);">
+    </div>
+    <div style="flex: 1; min-width: 300px;">
+      <h2>Seamless Integration</h2>
+      <p>Our system is designed to be intuitive and easy to use. Whether you are learning sign language or need a
+        communication aid, SignSync is here to help.</p>
+      <ul style="margin-top: 1rem;">
+        <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="ri-check-line" style="color: var(--secondary-color);"></i> Real-time processing
+        </li>
+        <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="ri-check-line" style="color: var(--secondary-color);"></i> Multi-platform support
+        </li>
+        <li style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="ri-check-line" style="color: var(--secondary-color);"></i> User-friendly interface
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="features" style="background: rgba(30, 41, 59, 0.3);">
+  <div class="container text-center">
+    <h2 class="section-title">How It Works</h2>
+    <p style="max-width: 700px; margin: 0 auto 2rem;">
+      Our system uses a combination of Natural Language Processing (NLP) and Computer Vision to bridge the communication
+      gap.
+    </p>
+    <img src="{{ url_for('static', filename='asset/workflow.png') }}" alt="Workflow"
+      style="max-width: 100%; border-radius: 16px; box-shadow: var(--shadow-lg);">
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="container text-center mt-4 mb-4">
+  <div
+    style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 4rem; border-radius: 24px;">
+    <h2 style="color: white;">Ready to get started?</h2>
+    <p style="color: rgba(255,255,255,0.9);">Join us in making the world more accessible for everyone.</p>
+    <a href="/register" class="btn" style="background: white; color: var(--primary-color); margin-top: 1rem;">Create an
+      Account</a>
+  </div>
+</section>
+{% endblock %}

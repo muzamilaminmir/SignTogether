@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Realistic Avatar - SignTogether{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4 text-center">
+    <h1 class="animate-fade-in">Speech to Sign</h1>
+    <p class="animate-fade-in delay-100">Speak into your microphone to see the sign language translation.</p>
+
+    <div class="card animate-fade-in delay-200" style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+        <button id="listen-btn" class="btn btn-primary"
+            style="font-size: 1.2rem; padding: 1rem 2rem; margin-bottom: 2rem;">
+            <i class="ri-mic-fill"></i> Start Listening
+        </button>
+
+        <div id="recognized-text"
+            style="font-size: 1.25rem; margin-bottom: 2rem; padding: 1rem; background: rgba(15, 23, 42, 0.3); border-radius: 8px; border: 1px solid var(--border-color);">
+            Recognized Words: <span style="color: var(--secondary-color); font-weight: bold;">-</span>
+        </div>
+
+        <div
+            style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg);">
+            <video id="signVideo" autoplay muted playsinline
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;"></video>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById("listen-btn").addEventListener("click", function () {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = "en-US";
+
+        recognition.onstart = function () {
+            document.getElementById("recognized-text").innerHTML = "🎤 Listening...";
+        };
+
+        recognition.onspeechend = function () {
+            recognition.stop();
+        };
+
+        recognition.onresult = function (event) {
+            let sentence = event.results[0][0].transcript.toLowerCase();
+            document.getElementById("recognized-text").innerHTML = `Recognized: <span style="color: var(--secondary-color); font-weight: bold;">${sentence}</span>`;
+            getTranslation(sentence);
+        };
+
+        recognition.onerror = function (event) {
+            document.getElementById("recognized-text").innerHTML = "❌ " + event.error;
+        };
+
+        recognition.start();
+    });
+
+    async function getTranslation(sentence) {
+        try {
+            const response = await fetch("/translate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ sentence })
+            });
+
+            const data = await response.json();
+            console.log("Received videos:", data.videos);
+            playVideos(data.videos);
+        } catch (error) {
+            console.error("Translation error:", error);
+        }
+    }
+
+    function playVideos(videoList) {
+        const videoElement = document.getElementById("signVideo");
+        let index = 0;
+
+        function playNext() {
+            if (index < videoList.length) {
+                const videoPath = videoList[index];
+                console.log("Playing video:", videoPath);
+
+                // Add cache busting
+                const cacheBuster = `?t=${Date.now()}`;
+                videoElement.src = videoPath + cacheBuster;
+
+                videoElement.play()
+                    .then(() => {
+                        console.log("Video started playing");
+                        index++;
+                    })
+                    .catch(error => {
+                        console.error("Video play error:", error);
+                        index++;
+                        playNext();
+                    });
+            }
+        }
+
+        videoElement.onloadeddata = () => {
+            console.log("Video metadata loaded");
+            videoElement.style.display = 'block';
+        };
+
+        videoElement.onerror = (error) => {
+            console.error("Video error:", error);
+            index++;
+            playNext();
+        };
+
+        videoElement.onended = playNext;
+        playNext();
+    }
+</script>
+{% endblock %}

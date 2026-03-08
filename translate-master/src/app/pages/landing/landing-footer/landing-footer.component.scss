@@ -1,0 +1,69 @@
+@use '../../../../theme/breakpoints' as breakpoints;
+
+footer {
+  background-color: #141518;
+  color: #ffffff;
+  padding: 20px 40px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: 1fr;
+  justify-content: space-between;
+  grid-template-areas: 'brand legal social';
+
+  @media #{breakpoints.$breakpoint-lt-sm} {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'brand brand'
+      'legal social';
+  }
+}
+
+.brand {
+  grid-area: brand;
+}
+
+.legal {
+  grid-area: legal;
+}
+
+.social {
+  grid-area: social;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  li {
+    color: #ccc;
+  }
+}
+
+a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.8em;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+app-i18n-language-selector {
+  border: 1px solid white;
+  display: inline-block;
+  border-radius: 16px;
+  padding: 4px;
+  margin-top: 32px;
+}
+
+h3 {
+  font-size: 1rem;
+}

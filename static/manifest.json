@@ -1,0 +1,21 @@
+{
+    "name": "SignTogether",
+    "short_name": "SignTogether",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#6366f1",
+    "description": "Real-time Sign Language Communication System",
+    "icons": [
+        {
+            "src": "/static/asset/two-fingers.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/asset/two-fingers.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SignTogether</string>
+    <string name="navigation_drawer_open">नेविगेशन मेनू खोलें</string>
+    <string name="navigation_drawer_close">नेविगेशन मेनू बंद करें</string>
+    <string-array name="languages">
+        <item>अंग्रेजी</item>
+        <item>हिंदी</item>
+        <item>स्पेनिश</item>
+    </string-array>
+    <string-array name="gender_array">
+        <item>लिंग चुनें</item>
+        <item>पुरुष</item>
+        <item>महिला</item>
+        <item>अन्य</item>
+    </string-array>
+    <string-array name="blood_group_array">
+        <item>रक्त समूह चुनें</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
+    <string name="app_version">संस्करण 1.0.0</string>
+    <string name="mission_title">हमारा मिशन</string>
+    <string name="mission_text">SignTogether भाषण और सांकेतिक भाषा के बीच त्वरित अनुवाद प्रदान करता है, मूक और बधिर उपयोगकर्ताओं को सशक्त बनाता है।</string>
+    <string name="purpose_title">हमारा उद्देश्य</string>
+    <string name="purpose_text">हमारा मानना ​​है कि हर किसी को स्वतंत्र रूप से संवाद करने का अधिकार है। हमारी आपातकालीन संपर्क सुविधा त्वरित सहायता सुनिश्चित करती है।</string>
+    <string name="team_unity_title">टीम यूनिटी</string>
+    <string name="team_unity_text">यह एप्लिकेशन टीम यूनिटी द्वारा बनाया गया है। साथ मिलकर, हम दुनिया को अधिक सुलभ बना रहे हैं।</string>
+
+    <!-- Main Activity Cards -->
+    <string name="title_speech_to_sign">वाक् से संकेत\nभाषा</string>
+    <string name="desc_speech_to_sign">बोली को संकेतों में बदलें</string>
+    <string name="title_sign_to_speech">संकेत भाषा से\nवाक्</string>
+    <string name="desc_sign_to_speech">संकेतों को बोली में बदलें</string>
+    <string name="title_emergency">आपातकालीन संपर्क</string>
+    <string name="desc_emergency">त्वरित आपातकालीन पहुंच</string>
+    <string name="title_learn">संकेत भाषा सीखें</string>
+    <string name="desc_learn">इंटरैक्टिव पाठ</string>
+
+    <!-- Native Mode UI -->
+    <string name="status_ready_to_sign">साइन करने के लिए तैयार</string>
+    <string name="status_waiting">प्रतीक्षा कर रहा है...</string>
+    <string name="status_listening">सुन रहा है...</string>
+    <string name="status_signing">साइन कर रहा है: %1$s</string>
+    <string name="status_no_signs">कोई संकेत नहीं मिला।</string>
+    <string name="status_confidence">आत्मविश्वास: %1$s</string>
+    <string name="btn_switch_cam">कैमरा बदलें</string>
+    <string name="robot_idle">रोबोट निष्क्रिय</string>
+    <string name="robot_ready">मैं मदद के लिए तैयार हूँ!</string>
+    <string name="hint_type_robot">रोबोट को टाइप करें...</string>
+    <string name="btn_send">भेजें</string>
+    <string name="btn_speak">बोलें</string>
+    <string name="sentence_captured">वाक्य कैप्चर किया गया: %1$s</string>
+</resources>

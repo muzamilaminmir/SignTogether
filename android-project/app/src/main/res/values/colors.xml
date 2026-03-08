@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#91C6BC</color>
+    <color name="secondary">#215E61</color>
+    <color name="accent">#233D4D</color>
+    <color name="highlight">#FE7F2D</color>
+    
+    <color name="text_primary">#233D4D</color>
+    <color name="text_secondary">#FFFFFF</color>
+    <color name="text_hint">#80233D4D</color>
+    
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    
+    <!-- Theme Colors -->
+    <color name="purple_200">#91C6BC</color>
+    <color name="purple_500">#215E61</color>
+    <color name="purple_700">#233D4D</color>
+    <color name="teal_200">#FE7F2D</color>
+    <color name="teal_700">#FE7F2D</color>
+</resources>

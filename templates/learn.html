@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Learn Sign Language - SignTogether{% endblock %}
+
+{% block extra_css %}
+<style>
+    .learn-container {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
+
+    .target-sign-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        text-align: center;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .target-letter {
+        font-size: 8rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 1rem 0;
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .feedback-badge {
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        display: inline-block;
+    }
+
+    .feedback-waiting {
+        background: rgba(148, 163, 184, 0.2);
+        color: #94a3b8;
+    }
+
+    .feedback-correct {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+        animation: success-pulse 0.5s ease;
+    }
+
+    .feedback-wrong {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+    }
+
+    @keyframes success-pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .letter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .letter-btn {
+        padding: 0.5rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .letter-btn:hover,
+    .letter-btn.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+    @media (max-width: 992px) {
+        .learn-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let targetLetter = 'A';
+    let isCorrect = false;
+
+    function setTarget(letter) {
+        targetLetter = letter;
+        document.getElementById("target-display").textContent = letter;
+        document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+        // Find the button that was clicked and add active class
+        const buttons = document.querySelectorAll('.letter-btn');
+        buttons.forEach(btn => {
+            if (btn.textContent.trim() === letter) btn.classList.add('active');
+        });
+        resetFeedback();
+    }
+
+    function resetFeedback() {
+        const badge = document.getElementById("feedback-badge");
+        badge.textContent = "Try to sign '" + targetLetter + "'";
+        badge.className = "feedback-badge feedback-waiting";
+        isCorrect = false;
+    }
+
+    function checkSign() {
+        fetch('/get_status')
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.getElementById("feedback-badge");
+                if (data.detected_text === targetLetter) {
+                    if (!isCorrect) {
+                        badge.textContent = "Correct! Well Done!";
+                        badge.className = "feedback-badge feedback-correct";
+                        isCorrect = true;
+                    }
+                } else if (data.detected_text && data.detected_text !== "---" && data.detected_text !== " ") {
+                    badge.textContent = "Almost! You are signing '" + data.detected_text + "'";
+                    badge.className = "feedback-badge feedback-wrong";
+                    isCorrect = false;
+                }
+            });
+    }
+
+    setInterval(checkSign, 500);
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="container mt-4 mb-4">
+    <div class="text-center">
+        <h1 class="animate-fade-in">Learn Sign Language</h1>
+        <p class="animate-fade-in delay-100">Practice your signs and get real-time AI feedback.</p>
+    </div>
+
+    <div class="learn-container">
+        <!-- Left: Camera Feed -->
+        <div class="card animate-fade-in delay-200" style="padding: 1.5rem;">
+            <div
+                style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg); margin-bottom: 1.5rem;">
+                <img id="video-box" src="{{ url_for('video_feed') }}" alt="Webcam Feed"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="text-center">
+                <div id="feedback-badge" class="feedback-badge feedback-waiting">
+                    Try to sign 'A'
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Target & Selection -->
+        <div class="animate-fade-in delay-300">
+            <div class="target-sign-card">
+                <h3>Target Sign</h3>
+                <div id="target-display" class="target-letter">A</div>
+                <p style="color: var(--text-muted);">Match your hand to this letter</p>
+
+                <div style="margin-top: 2rem; text-align: left;">
+                    <h4 style="margin-bottom: 1rem;">Select a Letter</h4>
+                    <div class="letter-grid">
+                        {% for char in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+                        <button class="letter-btn {{ 'active' if char == 'A' else '' }}"
+                            onclick="setTarget('{{ char }}')">
+                            {{ char }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="/model2" class="btn btn-outline" style="width: 100%;">
+                    <i class="ri-arrow-left-line"></i> Back to Interpreter
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
