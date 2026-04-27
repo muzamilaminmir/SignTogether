@@ -1,10 +1,11 @@
+# ===========================
 # Python
+# ===========================
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -29,53 +30,71 @@ ENV/
 env.bak/
 venv.bak/
 
-# Android
+# ===========================
+# Android / Gradle
+# ===========================
 .gradle/
 local.properties
-.idea/
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
 *.apk
 *.ap_
 *.aab
 *.dex
 *.class
 *.hprof
-*.log
-*.txt
-.DS_Store
-.idea/
-.gradle/
-build/
 app/build/
 capture/
 memory.prof
 
-# Android Studio
-*.iml
-.navigation/
-captures/
-
-# VS Code
+# ===========================
+# IDE
+# ===========================
+.idea/
 .vscode/
+*.iml
 *.code-workspace
+.navigation/
 
-# System
+# ===========================
+# Build Logs (Android Project)
+# ===========================
+android-project/*.txt
+android-project/*.log
+
+# ===========================
+# System Files
+# ===========================
+.DS_Store
 Thumbs.db
 Desktop.ini
 
-# Project Specific
+# ===========================
+# ML Models (large files — track specific ones explicitly)
+# ===========================
 *.h5
 !model.h5
 !sign_model.h5
-# (Uncomment the above ! lines if you want to track specific models, otherwise models are usually large and ignored)
 
+# ===========================
+# Temporary / Generated
+# ===========================
+file_listing_temp.txt
+*.docx
+
+# ===========================
 # Sensitive Assets
+# ===========================
 static/asset/The Rise.webp
 static/asset/developer.jpg
 static/asset/digital-menu.gif
 static/asset/founder.png
 static/asset/logregpagegif.jpg
+
+# ===========================
+# Certificates (regenerated locally)
+# ===========================
+# cert.pem
+# key.pem

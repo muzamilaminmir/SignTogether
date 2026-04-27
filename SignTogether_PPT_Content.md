@@ -7,8 +7,8 @@
 **SignTogether**
 *Bridging the Communication Gap Between Deaf & Hearing Worlds*
 
-- Team: Muzamil Amin Mir & Simar Kaur
-- Version 3.0 | Android App
+- Team:Unity
+- Version 1.0 | Android App
 - Built with: Kotlin, Jetpack Compose, TensorFlow Lite, MediaPipe
 
 ---
@@ -256,6 +256,7 @@ Additional Revenue:
 
 📧 mirmuzamil962@gmail.com
 📧 simarkaur0217@gmail.com
+📧
 
 🤟 *"Every conversation matters. Let's make them all possible."*
 
