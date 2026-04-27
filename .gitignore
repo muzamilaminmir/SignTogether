@@ -94,6 +94,15 @@ static/asset/founder.png
 static/asset/logregpagegif.jpg
 
 # ===========================
+# Firebase / Google Secrets (NEVER commit these)
+# ===========================
+**/google-services.json
+**/GoogleService-Info.plist
+**/environment.ts
+**/environment.prod.ts
+**/environment.test.ts
+
+# ===========================
 # Certificates (regenerated locally)
 # ===========================
 # cert.pem
